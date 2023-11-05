@@ -30,7 +30,7 @@ variable "instance_type" {
 
 variable "key_name" {
   description = "Name of the AWS key pair"
-  default     = "my-key-pair"
+  default     = "safe-key-pair"
 }
 
 variable "public_key_path" {

@@ -42,6 +42,31 @@ resource "aws_security_group" "simple_sg" {
     Name = "SimpleSG"
   }
 }
+resource "aws_internet_gateway" "simple_igw" {
+  vpc_id = aws_vpc.simple_vpc.id
+
+  tags = {
+    Name = "SimpleIGW"
+  }
+}
+
+resource "aws_route_table" "simple_rt" {
+  vpc_id = aws_vpc.simple_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.simple_igw.id
+  }
+
+  tags = {
+    Name = "SimpleRT"
+  }
+}
+
+resource "aws_route_table_association" "simple_rta" {
+  subnet_id      = aws_subnet.simple_subnet.id
+  route_table_id = aws_route_table.simple_rt.id
+}
 
 resource "aws_instance" "simple_instance" {
   ami           = var.ubuntu_ami
